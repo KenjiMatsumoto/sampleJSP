@@ -1,6 +1,7 @@
 package sample.action;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import sample.dao.InvoiceDao;
 import sample.dto.InvoiceDto;
 import sample.util.EnumJspName;
+import sample.validator.InvoiceValidator;
 
 /**
  * Servlet implementation class NewAction
@@ -63,16 +65,24 @@ public class NewAction extends HttpServlet {
 			// 文字化け対策
 			request.setCharacterEncoding("UTF-8");
 
-			// 値を設定するオブジェクトの生成
 			InvoiceDto invoice = new InvoiceDto();
 			invoice.setTitle(request.getParameter("title"));
 			invoice.setDetail(request.getParameter("detail"));
 			invoice.setTotalfee(request.getParameter("totalFee"));
 
-			// 実際の登録処理
-			dao.create(invoice);
+			InvoiceValidator invoiceValidator = new InvoiceValidator();
+			List<String> errors = invoiceValidator.validate(invoice);
+			
+			EnumJspName enumItem = EnumJspName.LIST;
+			if (!errors.isEmpty()) {
+				request.setAttribute("errors", errors);
+				enumItem = EnumJspName.NEW;
+			} else {
+				request.setAttribute("invoices", dao.selectAll());
+				dao.create(invoice);
+			}
 			RequestDispatcher view = request
-					.getRequestDispatcher(EnumJspName.NEW.toString());
+					.getRequestDispatcher(enumItem.toString());
 			request.setAttribute("invoice", invoice);
 			view.forward(request, response);
 		}

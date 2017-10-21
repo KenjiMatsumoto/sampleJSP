@@ -1,6 +1,7 @@
 package sample.action;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import sample.dao.InvoiceDao;
 import sample.dto.InvoiceDto;
 import sample.util.EnumJspName;
+import sample.validator.InvoiceValidator;
 
 /**
  * Servlet implementation class editAction
@@ -68,12 +70,21 @@ public class EditAction extends HttpServlet {
 			invoice.setTotalfee(request.getParameter("totalFee"));
 			String invoiceid = request.getParameter("invoiceId");
 
+			InvoiceValidator invoiceValidator = new InvoiceValidator();
+			List<String> errors = invoiceValidator.validate(invoice);
+
 			invoice.setInvoiceId(invoiceid);
-
-			dao.update(invoice);
-
+			
+			EnumJspName enumItem = EnumJspName.LIST;
+			if (!errors.isEmpty()) {
+				request.setAttribute("errors", errors);
+				enumItem = EnumJspName.EDIT;
+			} else {
+				request.setAttribute("invoices", dao.selectAll());
+				dao.update(invoice);
+			}
 			RequestDispatcher view = request
-					.getRequestDispatcher(EnumJspName.EDIT.toString());
+					.getRequestDispatcher(enumItem.toString());
 			request.setAttribute("invoice", invoice);
 			view.forward(request, response);
 		}

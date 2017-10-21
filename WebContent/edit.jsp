@@ -13,6 +13,14 @@
 		request.setCharacterEncoding("UTF-8");
 	%>
 	<h1>更新</h1>
+    <c:if test="${requestScope.errors != null}">
+        <p id="errors">エラー</p>
+        <ul>
+            <c:forEach var="error" items="${requestScope.errors}">
+                <li>${error}</li>
+            </c:forEach>
+        </ul>
+    </c:if>
 	<p>
 		<a href="ListAction">一覧へ</a>
 	</p>
