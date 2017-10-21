@@ -21,6 +21,6 @@
         <br /> 
         <input type="submit" value="追加" /> 
     </form>
-    <a href="#">一覧へ戻る</a> 
+    <a href="ListAction">一覧へ戻る</a> 
 </body>
 </html>

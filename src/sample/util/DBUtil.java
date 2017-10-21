@@ -18,7 +18,8 @@ public class DBUtil {
                 Class.forName("com.mysql.jdbc.Driver");
                 // コネクション生成
                 connection = 
-                DriverManager.getConnection("jdbc:mysql://localhost/java_lesson?user=root&password=@@19830624Kk&characterEncoding=utf8");
+                DriverManager.getConnection(
+ "jdbc:mysql://localhost/java_lesson?user=root&password=@@19830624Kk&characterEncoding=utf8");
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             } catch (SQLException e) {
