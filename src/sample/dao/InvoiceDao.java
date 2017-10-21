@@ -39,11 +39,28 @@ public class InvoiceDao {
 	}
 
 	public void delete(int invoiceId) {
-		
+
 	}
 
 	public void update(InvoiceDto invoice) {
+		try {
+			PreparedStatement preparedStatement = connection.prepareStatement(
+					"update invoices set title=?, detail=?, totalFee=?, updated_at=?"
+							+ "where id=?");
+			// Parameters start with 1
+			preparedStatement.setString(1, invoice.getTitle());
+			preparedStatement.setString(2, invoice.getDetail());
+			preparedStatement.setInt(3,
+					Integer.parseInt(invoice.getTotalfee()));
+			preparedStatement.setDate(4,
+					new java.sql.Date(new Date().getTime()));
+			preparedStatement.setInt(5,
+					Integer.parseInt(invoice.getInvoiceId()));
+			preparedStatement.executeUpdate();
 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public List<InvoiceDto> selectAll() {
@@ -72,6 +89,22 @@ public class InvoiceDao {
 
 	public InvoiceDto selectById(int invoiceId) {
 		InvoiceDto invoice = new InvoiceDto();
+		try {
+			PreparedStatement preparedStatement = connection.prepareStatement(
+					"select * from invoices where id=? and deleteFlg=0");
+			preparedStatement.setInt(1, invoiceId);
+			ResultSet rs = preparedStatement.executeQuery();
+
+			if (rs.next()) {
+				invoice.setInvoiceId(rs.getString("id"));
+				invoice.setTitle(rs.getString("title"));
+				invoice.setDetail(rs.getString("detail"));
+				invoice.setTotalfee(String.valueOf(rs.getInt("totalFee")));
+				invoice.setUpdate_date(rs.getTimestamp("updated_at"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return invoice;
 	}
 

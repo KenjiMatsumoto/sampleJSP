@@ -33,8 +33,12 @@
 					<td><fmt:formatDate pattern="yyyy-MMM-dd"
 							value="${invoice.update_date}" /></td>
 					<td><c:out value="${invoice.totalfee}" /></td>
-					<td><a href="#">詳細</a></td>
-					<td><a href="#">更新</a></td>
+					<td>
+					   <a href="DetailAction?invoiceId=<c:out value="${invoice.invoiceId}"/>">詳細</a>
+					</td>
+					<td>
+					   <a href="EditAction?invoiceId=<c:out value="${invoice.invoiceId}"/>">更新</a>
+					</td>
 					<td><a href="#">削除</a></td>
 				</tr>
 			</c:forEach>
