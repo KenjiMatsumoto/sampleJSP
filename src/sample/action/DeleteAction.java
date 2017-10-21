@@ -37,6 +37,7 @@ public class DeleteAction extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		
 		int InvoiceId = Integer.parseInt(request.getParameter("invoiceId"));
 		dao.delete(InvoiceId);
 		request.setAttribute("invoices", dao.selectAll());
