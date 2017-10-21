@@ -13,18 +13,20 @@ import sample.dao.InvoiceDao;
 import sample.util.EnumJspName;
 
 /**
- * Servlet implementation class ListAction
+ * Servlet implementation class DeleteAction
  */
-@WebServlet("/ListAction")
-public class ListAction extends HttpServlet {
+@WebServlet("/DeleteAction")
+public class DeleteAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private InvoiceDao dao;
+
 	/**
-	 * @throws IllegalAccessException 
-	 * @throws InstantiationException 
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public ListAction() throws InstantiationException, IllegalAccessException {
+	public DeleteAction()
+			throws InstantiationException, IllegalAccessException {
 		super();
 		dao = new InvoiceDao();
 	}
@@ -35,9 +37,11 @@ public class ListAction extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-
+		int InvoiceId = Integer.parseInt(request.getParameter("invoiceId"));
+		dao.delete(InvoiceId);
 		request.setAttribute("invoices", dao.selectAll());
-		RequestDispatcher view = request.getRequestDispatcher(EnumJspName.LIST.toString());
+		RequestDispatcher view = request
+				.getRequestDispatcher(EnumJspName.LIST.toString());
 		view.forward(request, response);
 	}
 

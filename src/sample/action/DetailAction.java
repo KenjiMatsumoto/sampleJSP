@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import sample.dao.InvoiceDao;
+import sample.util.EnumJspName;
 
 /**
  * Servlet implementation class DetailAction
@@ -39,7 +40,7 @@ public class DetailAction extends HttpServlet {
 
         int invoiceId = Integer.parseInt(request.getParameter("invoiceId"));
         request.setAttribute("invoice", dao.selectById(invoiceId));
-        RequestDispatcher view = request.getRequestDispatcher("detail.jsp");
+        RequestDispatcher view = request.getRequestDispatcher(EnumJspName.DETAIL.toString());
         view.forward(request, response);
     }
 

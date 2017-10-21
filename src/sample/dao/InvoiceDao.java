@@ -39,7 +39,16 @@ public class InvoiceDao {
 	}
 
 	public void delete(int invoiceId) {
-
+		try {
+			PreparedStatement preparedStatement = connection.prepareStatement(
+					"update invoices set deleteFlg=? where id=?");
+			// Parameters start with 1
+			preparedStatement.setBoolean(1, true);
+			preparedStatement.setInt(2, invoiceId);
+			preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void update(InvoiceDto invoice) {

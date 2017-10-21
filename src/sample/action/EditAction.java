@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import sample.dao.InvoiceDao;
 import sample.dto.InvoiceDto;
+import sample.util.EnumJspName;
 
 /**
  * Servlet implementation class editAction
@@ -40,7 +41,7 @@ public class EditAction extends HttpServlet {
 		int invoiceId = Integer.parseInt(request.getParameter("invoiceId"));
 		InvoiceDto invoice = dao.selectById(invoiceId);
 		request.setAttribute("invoice", invoice);
-		RequestDispatcher view = request.getRequestDispatcher("edit.jsp");
+		RequestDispatcher view = request.getRequestDispatcher(EnumJspName.EDIT.toString());
 		view.forward(request, response);
 	}
 
@@ -61,7 +62,7 @@ public class EditAction extends HttpServlet {
 
 		dao.update(invoice);
 
-		RequestDispatcher view = request.getRequestDispatcher("edit.jsp");
+		RequestDispatcher view = request.getRequestDispatcher(EnumJspName.EDIT.toString());
 		request.setAttribute("invoice", invoice);
 		view.forward(request, response);
 	}

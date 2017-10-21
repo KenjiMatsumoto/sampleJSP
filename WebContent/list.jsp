@@ -39,7 +39,9 @@
 					<td>
 					   <a href="EditAction?invoiceId=<c:out value="${invoice.invoiceId}"/>">更新</a>
 					</td>
-					<td><a href="#">削除</a></td>
+					<td>
+					   <a href="DeleteAction?invoiceId=<c:out value="${invoice.invoiceId}"/>">削除</a>
+					</td>
 				</tr>
 			</c:forEach>
 		</tbody>

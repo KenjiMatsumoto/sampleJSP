@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import sample.dao.InvoiceDao;
 import sample.dto.InvoiceDto;
+import sample.util.EnumJspName;
 
 /**
  * Servlet implementation class NewAction
@@ -37,7 +38,7 @@ public class NewAction extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		RequestDispatcher view = request.getRequestDispatcher("new.jsp");
+		RequestDispatcher view = request.getRequestDispatcher(EnumJspName.NEW.toString());
 		view.forward(request, response);
 	}
 
@@ -58,7 +59,7 @@ public class NewAction extends HttpServlet {
 		
 		// 実際の登録処理
 		dao.create(invoice);
-		RequestDispatcher view = request.getRequestDispatcher("new.jsp");
+		RequestDispatcher view = request.getRequestDispatcher(EnumJspName.NEW.toString());
 		request.setAttribute("invoice", invoice);
 		view.forward(request, response);
 	}
