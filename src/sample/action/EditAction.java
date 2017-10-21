@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import sample.dao.InvoiceDao;
 import sample.dto.InvoiceDto;
@@ -41,7 +42,8 @@ public class EditAction extends HttpServlet {
 		int invoiceId = Integer.parseInt(request.getParameter("invoiceId"));
 		InvoiceDto invoice = dao.selectById(invoiceId);
 		request.setAttribute("invoice", invoice);
-		RequestDispatcher view = request.getRequestDispatcher(EnumJspName.EDIT.toString());
+		RequestDispatcher view = request
+				.getRequestDispatcher(EnumJspName.EDIT.toString());
 		view.forward(request, response);
 	}
 
@@ -51,19 +53,29 @@ public class EditAction extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
-		InvoiceDto invoice = new InvoiceDto();
-		invoice.setTitle(request.getParameter("title"));
-		invoice.setDetail(request.getParameter("detail"));
-		invoice.setTotalfee(request.getParameter("totalFee"));
-		String invoiceid = request.getParameter("invoiceId");
+		HttpSession session = request.getSession(true);
+		String token = (String) session.getAttribute("token");
+		// トークンチェック
+		if (token == null || !(token.equals(request.getParameter("token")))) {
+			// エラー画面へ
+			RequestDispatcher view = request.getRequestDispatcher(EnumJspName.ERROR.toString());
+			view.forward(request, response);
+		} else {
+			request.setCharacterEncoding("UTF-8");
+			InvoiceDto invoice = new InvoiceDto();
+			invoice.setTitle(request.getParameter("title"));
+			invoice.setDetail(request.getParameter("detail"));
+			invoice.setTotalfee(request.getParameter("totalFee"));
+			String invoiceid = request.getParameter("invoiceId");
 
-		invoice.setInvoiceId(invoiceid);
+			invoice.setInvoiceId(invoiceid);
 
-		dao.update(invoice);
+			dao.update(invoice);
 
-		RequestDispatcher view = request.getRequestDispatcher(EnumJspName.EDIT.toString());
-		request.setAttribute("invoice", invoice);
-		view.forward(request, response);
+			RequestDispatcher view = request
+					.getRequestDispatcher(EnumJspName.EDIT.toString());
+			request.setAttribute("invoice", invoice);
+			view.forward(request, response);
+		}
 	}
 }

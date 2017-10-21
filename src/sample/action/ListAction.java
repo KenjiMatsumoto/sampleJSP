@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import sample.dao.InvoiceDao;
 import sample.util.EnumJspName;
@@ -35,7 +36,10 @@ public class ListAction extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-
+		// セッションを取得
+		HttpSession session = request.getSession(true);
+		// トークンをセッションに保存
+		session.setAttribute("token", session.getId());
 		request.setAttribute("invoices", dao.selectAll());
 		RequestDispatcher view = request.getRequestDispatcher(EnumJspName.LIST.toString());
 		view.forward(request, response);

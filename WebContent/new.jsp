@@ -10,7 +10,7 @@
     <% request.setCharacterEncoding("UTF-8"); %>
     <h1>新規</h1>
     <form method="POST" action="">
-        <input type="hidden" name="token" value="">
+        <input type="hidden" name="token" value="<%=session.getAttribute("token")%>">
         請求書ID : <input type="text" readonly="readonly" name="invoiceId" value="" /> 
         <br /> 
         タイトル : <input type="text" name="title" value="" />
