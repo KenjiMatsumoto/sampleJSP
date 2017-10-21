@@ -57,11 +57,11 @@ public class InvoiceDao {
 			// 値の取得とリストへの追加
 			while (rs.next()) {
 				InvoiceDto invoice = new InvoiceDto();
-				invoice.setInvoiceId(rs.getString("InvoiceId"));
+				invoice.setInvoiceId(rs.getString("id"));
 				invoice.setTitle(rs.getString("title"));
 				invoice.setDetail(rs.getString("detail"));
 				invoice.setTotalfee(String.valueOf(rs.getInt("totalFee")));
-				invoice.setUpdate_date(rs.getDate("update_date"));
+				invoice.setUpdate_date(rs.getDate("updated_at"));
 				invoices.add(invoice);
 			}
 		} catch (SQLException e) {
